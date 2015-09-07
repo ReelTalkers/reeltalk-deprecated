@@ -1,4 +1,4 @@
-import Component.ShowList exposing (init, update, view)
+import Component.Dashboard exposing (init, update, view)
 import StartApp.Simple exposing (start)
 
 main =

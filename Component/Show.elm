@@ -1,4 +1,5 @@
-module Component.Show (Model, init, Action, update, view, viewWithRemoveButton, Context) where
+module Component.Show (Model, Score, init, Action, update,
+                       view, viewWithRemoveButton, Context) where
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
