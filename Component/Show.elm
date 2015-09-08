@@ -1,78 +1,39 @@
-module Component.Show (Model, Score, init, Action, update,
-                       view, viewWithRemoveButton, Context) where
+module Component.Show (Model, init, view) where
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (..)
+
 
 -- MODEL
 
+
 type alias Model =
     {
-      title : String,
-      score : Score
+      title : String
     }
 
-type alias Score = Int
 
-init : String -> Score -> Model
-init title score =
+init : String -> Model
+init title =
     {
-      title = title,
-      score = score
+      title = title
     }
 
--- UPDATE
-
-type Action = Review Score
-
-update : Action -> Model -> Model
-update action model =
-  case action of
-    Review newScore ->
-      { model |
-          score <- newScore
-      }
 
 -- VIEW
 
-view : Signal.Address Action -> Model -> Html
-view address model =
+
+view : Model -> Html
+view model =
   div [titleStyle]
     [
-      h2 [] [text model.title],
-      span [scoreStyle] [text (toString model.score)]
+      h2 [] [text model.title]
     ]
 
-type alias Context =
-    {
-      actions : Signal.Address Action,
-      remove : Signal.Address ()
-    }
-
-viewWithRemoveButton : Context -> Model -> Html
-viewWithRemoveButton context model =
-  div []
-    [
-      div [titleStyle]
-        [
-          h2 [] [text model.title],
-          span [scoreStyle] [text (toString model.score)]
-        ],
-      button [ onClick context.remove () ] [ text "X" ]
-    ]
 
 titleStyle : Attribute
 titleStyle =
   style
     [
       ("text-align", "center")
-    ]
-
-
-scoreStyle : Attribute
-scoreStyle =
-  style
-    [
-      ("font-size", "14px")
     ]

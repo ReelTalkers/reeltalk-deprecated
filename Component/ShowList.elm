@@ -30,7 +30,6 @@ init =
 type Action
     = Add
     | UpdateNewShowTitle String
-    | UpdateNewShowScore Show.Score
     | Remove ID
     | Modify ID Show.Action
 
@@ -46,11 +45,6 @@ update action model =
     UpdateNewShowTitle title ->
       { model |
           newShow <- Show.init title model.newShow.score
-      }
-
-    UpdateNewShowScore score ->
-      { model |
-          newShow <- Show.init model.newShow.title score
       }
 
     Remove id ->
@@ -79,7 +73,8 @@ view address model =
 
 showEntry : Signal.Address Action -> Show.Model -> Html
 showEntry address show =
-  div [] [
+  div [] 
+  [
     input [
             id "new-show-title",
             placeholder "New Show Title",
@@ -89,13 +84,6 @@ showEntry address show =
             on "input" targetValue (Signal.message address << UpdateNewShowTitle)
           ]
           [],
-    br [] [],
-    button [ onClick address (UpdateNewShowScore 1) ] [ text "1" ],
-    button [ onClick address (UpdateNewShowScore 2) ] [ text "2" ],
-    button [ onClick address (UpdateNewShowScore 3) ] [ text "3" ],
-    button [ onClick address (UpdateNewShowScore 4) ] [ text "4" ],
-    button [ onClick address (UpdateNewShowScore 5) ] [ text "5" ],
-    br [] [],
     button [ onClick address Add ] [ text "Review" ]
   ]
 
