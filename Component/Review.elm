@@ -2,10 +2,12 @@ module Component.Review (Model, init, Action, update,
                          view, viewWithRemoveButton, Context) where
 
 import Component.Show as Show
+import Component.User as User
 import Time exposing (Time, every, second)
 import Date exposing (year, hour, minute, second, fromTime)
 import Html exposing (..)
 import Html.Events exposing (..)
+
 
 -- MODEL
 
@@ -14,18 +16,20 @@ type alias Model =
     {
         show : Show.Model,
         score : Score,
-        createdAt : Time
+        createdAt : Time,
+        user : User.Model
     }
 
 type alias Score = Int
 
 
-init : Show.Model -> Score -> Time -> Model
-init show score createdAt =
+init : Show.Model -> Score -> Time -> User.Model -> Model
+init show score createdAt user =
     {
         show = show,
         score = score,
-        createdAt = createdAt
+        createdAt = createdAt,
+        user = user
     }
 
 
@@ -58,7 +62,9 @@ view address model =
         button [ onClick address (UpdateScore 4) ] [ text "4" ],
         button [ onClick address (UpdateScore 5) ] [ text "5" ],
         br [] [],
-        span [] [text ("Reviewed At: " ++ (currentTime model.createdAt))]
+        span [] [text ("Reviewed At: " ++ (currentTime model.createdAt))],
+        br [] [],
+        span [] [text ("Reviewed By: " ++ (model.user.handle))]
     ]
 
 
