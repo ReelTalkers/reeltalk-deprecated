@@ -1,4 +1,4 @@
-module Component.ShowList (Model, init, Action, update, view) where
+module Component.ShowList (Model, init, initWithShows, Action, update, view) where
 
 import Component.Show as Show
 import Html exposing (..)
@@ -10,9 +10,9 @@ import Json.Decode as Json
 
 type alias Model =
   {
-      shows : List ( ID, Show.Model ),
-      nextID : ID,
-      newShow : Show.Model
+    shows : List ( ID, Show.Model ),
+    nextID : ID,
+    newShow : Show.Model
   }
 
 type alias ID = Int
@@ -20,9 +20,17 @@ type alias ID = Int
 init : Model
 init =
   {
-      shows = [],
-      nextID = 0,
-      newShow = Show.init "" 0
+    shows = [],
+    nextID = 0,
+    newShow = Show.init "" "" ""
+  }
+
+initWithShows : List Show.Model -> Model
+initWithShows shows =
+  {
+    shows = List.indexedMap (\i show -> (i, show)) shows,
+    nextID = List.length shows + 1,
+    newShow = Show.init "" "" ""
   }
 
 -- UPDATE
@@ -30,6 +38,8 @@ init =
 type Action
     = Add
     | UpdateNewShowTitle String
+    | UpdateNewShowBanner String
+    | UpdateNewShowPoster String
     | Remove ID
     | Modify ID Show.Action
 
@@ -38,13 +48,23 @@ update action model =
   case action of
     Add ->
       { model |
-          shows <- ( model.nextID, Show.init model.newShow.title model.newShow.score) :: model.shows,
+          shows <- (model.nextID, Show.init model.newShow.title model.newShow.banner model.newShow.poster) :: model.shows,
           nextID <- model.nextID + 1
       }
 
     UpdateNewShowTitle title ->
       { model |
-          newShow <- Show.init title model.newShow.score
+          newShow <- Show.init title model.newShow.banner model.newShow.poster
+      }
+
+    UpdateNewShowBanner banner ->
+      { model |
+          newShow <- Show.init model.newShow.title banner model.newShow.poster
+      }
+
+    UpdateNewShowPoster poster ->
+      { model |
+          newShow <- Show.init model.newShow.title model.newShow.banner poster
       }
 
     Remove id ->
@@ -89,12 +109,7 @@ showEntry address show =
 
 viewShow : Signal.Address Action -> (ID, Show.Model) -> Html
 viewShow address (id, model) =
-  let context =
-        Show.Context
-          (Signal.forwardTo address (Modify id))
-          (Signal.forwardTo address (always (Remove id)))
-  in
-      Show.viewWithRemoveButton context model
+  Show.view (Signal.forwardTo address (Modify id)) model
 
 onEnter : Signal.Address a -> a -> Attribute
 onEnter address value =

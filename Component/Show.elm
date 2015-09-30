@@ -1,4 +1,4 @@
-module Component.Show (Model, init, update, view, viewAsPoster, viewAsBanner) where
+module Component.Show (Model, init, Action, update, view, viewAsPoster, viewAsBanner) where
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
