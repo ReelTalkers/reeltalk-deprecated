@@ -1,26 +1,24 @@
-module Component.User (Model, init, view) where
+module Component.User (Model, init, Action, update, view) where
 
 import Html exposing (..)
-import Html.Attributes exposing (..)
-
 
 -- MODEL
 
-
 type alias Model =
-    {
-        handle : String,
-        firstName : Name,
-        lastName : Name,
-        email : Email,
-        phone : Phone
-    }
+  {
+    handle : Handle,
+    firstName : Name,
+    lastName : Name,
+    email : Email,
+    phone : Phone
+  }
 
+type alias Handle = String
 type alias Name = String
 type alias Email = String
 type alias Phone = String
 
-init : String -> Name -> Name -> Email -> Phone -> Model
+init : Handle -> Name -> Name -> Email -> Phone -> Model
 init handle firstName lastName email phone =
     {
         handle = handle,
@@ -30,13 +28,35 @@ init handle firstName lastName email phone =
         phone = phone
     }
 
+-- UPDATE
+
+type Action
+  = ChangeHandle Handle
+  | ChangeFirstName Name
+  | ChangeLastName Name
+  | ChangeEmail Email
+  | ChangePhone Phone
+
+
+update : Action -> Model -> Model
+update action model =
+  case action of
+    ChangeHandle newHandle ->
+      { model | handle <- newHandle }
+    ChangeFirstName newFirstName ->
+      { model | firstName <- newFirstName }
+    ChangeLastName newLastName ->
+      { model | lastName <- newLastName }
+    ChangeEmail newEmail ->
+      { model | email <- newEmail }
+    ChangePhone newPhone ->
+      { model | phone <- newPhone }
 
 -- VIEW
 
-
-view : Model -> Html
-view model =
-    div []
+view : Signal.Address Action -> Model -> Html
+view address model =
+  div []
     [
-        h3 [] [ text model.handle ]
+      h3 [] [ text model.handle ]
     ]
