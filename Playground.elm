@@ -1,4 +1,4 @@
-import Component.ShowList exposing (initWithShows, update, view)
+import Page.RecommendPage exposing (init, update, view)
 import Component.Show as Show
 import StartApp.Simple exposing (start)
 import Svg exposing (Svg)
@@ -19,10 +19,12 @@ main =
      firefly = Show.init "Firefly" fireflyBanner fireflyPoster
      buffy = Show.init "Buffy" buffyBanner buffyPoster
      dollhouse = Show.init "Dollhouse" dollhouseBanner dollhousePoster
+     user = { handle = "gziegan" , firstName = "Greg", lastName = "Ziegan",
+              email = "greg.ziegan@gmail.com", phone = "012-345-6789" }
   in
     start
       {
-        model = initWithShows [firefly, buffy, dollhouse],
+        model = init user,
         update = update,
         view = view
       }
