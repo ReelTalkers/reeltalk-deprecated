@@ -1,4 +1,4 @@
-module Component.ReviewList (Model, init, view) where
+module Component.ReviewList (Model, init, initWithReviews, Action, update, view) where
 
 
 import Component.Review as Review
@@ -21,10 +21,29 @@ init =
     }
 
 initWithReviews : List Review.Model -> Model
-initWithReviews reviews = 
+initWithReviews reviews =
     {
-        reviews = List.indexedMap (\i review -> (i review)) reviews
+        reviews = List.indexedMap (\i review -> (i, review)) reviews
     }
+
+-- UPDATE
+
+type Action
+    = NoOp
+    | Modify ID Review.Action
+
+update : Action -> Model -> Model
+update action model =
+    case action of
+        NoOp ->
+            model
+        Modify id reviewAction ->
+            let updateReview (reviewID, reviewModel) =
+                if reviewID == id
+                    then (reviewID, Review.update reviewAction reviewModel)
+                    else (reviewID, reviewModel)
+            in
+                { model | reviews <- List.map updateReview model.reviews }
 
 -- VIEW
 view : Signal.Address Action -> Model -> Html

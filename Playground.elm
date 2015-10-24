@@ -1,4 +1,4 @@
-import Page.ReviewPage exposing (init, update, view)
+import Tab.ReviewTab exposing (init, update, view)
 import Component.Show as Show
 import StartApp.Simple exposing (start)
 import Svg exposing (Svg)
@@ -27,7 +27,7 @@ main =
      user = { handle = "gziegan" , firstName = "Greg", lastName = "Ziegan",
               email = "greg.ziegan@gmail.com", phone = "012-345-6789" }
 
-     defaultTime = Time.init 73.0
+     defaultTime = Time.second
 
      fireflyReview = Review.init firefly 5 defaultTime user
      buffyReview = Review.init buffy 4 defaultTime user

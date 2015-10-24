@@ -1,4 +1,4 @@
-module Page.RecommendPage where
+module Page.RecommendTab where
 
 import Component.User as User
 import Component.ShowFilter as ShowFilter
