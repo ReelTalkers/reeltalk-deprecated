@@ -55,6 +55,7 @@ view address model =
   div []
     [
       h2 [] [text model.show.title],
+      h3 [] [text ("Stars: " ++ (toString model.score))],
       br [] [],
       button [ onClick address (UpdateScore 1) ] [ text "1" ],
       button [ onClick address (UpdateScore 2) ] [ text "2" ],
@@ -90,6 +91,7 @@ viewWithRemoveButton context model =
   div []
     [
       h2 [] [text model.show.title],
+      h4 [] [text "Hello World!"],
       br [] [],
       button [ onClick context.actions (UpdateScore 1) ] [ text "1" ],
       button [ onClick context.actions (UpdateScore 2) ] [ text "2" ],

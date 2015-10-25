@@ -29,14 +29,11 @@ initWithReviews reviews =
 -- UPDATE
 
 type Action
-    = NoOp
-    | Modify ID Review.Action
+    = Modify ID Review.Action
 
 update : Action -> Model -> Model
 update action model =
     case action of
-        NoOp ->
-            model
         Modify id reviewAction ->
             let updateReview (reviewID, reviewModel) =
                 if reviewID == id

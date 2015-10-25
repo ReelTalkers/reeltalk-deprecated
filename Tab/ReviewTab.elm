@@ -18,16 +18,15 @@ init user reviewList =
         reviewList = reviewList
     }
 
+type alias ID = Int
+
 type Action = 
-    NoOp |
-    AddReview ReviewList.Action
+    Modify ReviewList.Action
 
 update: Action -> Model -> Model
 update action model =
     case action of
-        NoOp ->
-            model
-        AddReview act ->
+        Modify act ->
             { model |
                 reviewList <- ReviewList.update act model.reviewList
             }
@@ -37,6 +36,6 @@ view address model =
   div []
     [
       h1 [] [text "Recommend"],
-      ReviewList.view (Signal.forwardTo address AddReview) model.reviewList
+      ReviewList.view (Signal.forwardTo address Modify) model.reviewList
     ]
 
