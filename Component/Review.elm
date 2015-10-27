@@ -1,4 +1,4 @@
-module Component.Review (Model, init, Action, update, 
+module Component.Review (Model, init, Action, update,
                          view, viewWithRemoveButton, Context) where
 
 import Component.Show as Show
@@ -71,12 +71,12 @@ view address model =
 currentTime : Time -> String
 currentTime t =
   let date' = fromTime t
-    hour' = toString (Date.hour date')
-    minute' = toString (Date.minute date')
-    second' = toString (Date.second date')
-    year' = toString (year date')
-    now = hour' ++ ":" ++ minute' ++ ":" ++ second'
-  in 
+      hour' = toString (Date.hour date')
+      minute' = toString (Date.minute date')
+      second' = toString (Date.second date')
+      year' = toString (year date')
+      now = hour' ++ ":" ++ minute' ++ ":" ++ second'
+  in
     now
 
 type alias Context =

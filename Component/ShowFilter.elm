@@ -3,6 +3,7 @@ module Component.ShowFilter where
 import Component.ShowList as ShowList
 import Component.Group as Group
 import Component.User as User
+
 import Html exposing (..)
 
 -- MODEL
@@ -11,7 +12,7 @@ type alias Model =
   {
     shows : ShowList.Model,
     groups : List Group.Model,
-    users: List User.Model
+    users : List User.Model
   }
 
 
@@ -57,7 +58,7 @@ update action model =
   case action of
     FilterShows ->
       { model |
-          shows <- filterShows model.groups model.users model.shows 
+          shows <- filterShows model.groups model.users model.shows
       }
 
 filterShows : List Group.Model -> List User.Model -> ShowList.Model -> ShowList.Model
@@ -66,8 +67,8 @@ filterShows groups users showList =
 
 -- VIEW
 
-view : Signal.Address Action -> Model -> Html
-view address model =
+view : Model -> Html
+view model =
   div []
     [
       p [] [text "filter"]

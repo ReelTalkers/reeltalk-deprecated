@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Elm • TodoMVC</title>
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-pink.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<body>
+
+<script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
+<script type="text/javascript" src="elm.js"></script>
+<script type="text/javascript">
+var reeltalk = Elm.fullscreen(Elm.App, {
+  listReviews: []
+});
+reeltalk.ports.listReviews.send(reviewsLookup());
+
+function reviewsLookup() {
+  var me = { handle: "gziegan", firstName: "Greg", lastName: "Ziegan",
+             email: "greg.ziegan@gmail.com", phone: "012-345-6789" };
+  var firefly = { title: "Firefly", banner: "", poster: "" };
+  var reviews = [
+    {show: firefly, score: 5, createdAt: (new Date).getTime(), user: me}
+  ];
+  return reviews;
+}
+
+</script>
+</body>
+</html>
