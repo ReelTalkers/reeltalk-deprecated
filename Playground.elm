@@ -20,9 +20,18 @@ main =
      dollhouseBanner = dollhousePath ++ "dollhouse-banner.jpg"
      dollhousePoster = dollhousePath ++ "dollhouse-poster.jpg"
 
-     firefly = Show.init "Firefly" fireflyBanner fireflyPoster
-     buffy = Show.init "Buffy" buffyBanner buffyPoster
-     dollhouse = Show.init "Dollhouse" dollhouseBanner dollhousePoster
+     firefly = (Show.init "Firefly" fireflyBanner fireflyPoster "DarkKhaki"
+      "Five hundred years in the future, a renegade crew aboard a small
+      spacecraft tries to survive as they travel the unknown parts of the galaxy
+      and evade warring factions as well as authority agents out to get them.")
+     buffy = (Show.init "Buffy" buffyBanner buffyPoster "Aqua"
+      "A young girl, destined to slay vampires, demons and other infernal
+      creatures, deals with her life fighting evil, with the help of her
+      friends.")
+     dollhouse = (Show.init "Dollhouse" dollhouseBanner dollhousePoster "Coral"
+      "A futuristic laboratory assigns different tasks to its various residents,
+      who then have their memories erased upon the completion of their
+      assignments.")
 
      user = { handle = "gziegan" , firstName = "Greg", lastName = "Ziegan",
               email = "greg.ziegan@gmail.com", phone = "012-345-6789" }
