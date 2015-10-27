@@ -1,5 +1,6 @@
 module App where
 import Component.ShowList exposing (init, update, view)
+import Component.User as User
 import Component.Page as Page
 import Component.Review as Review
 import Component.Show as Show
@@ -21,8 +22,9 @@ actions =
 type alias AppState =
     {
       page : Page.Model,
-      reviews: List Review.Model,
-      shows: List Show.Model
+      reviews : List Review.Model,
+      shows : List Show.Model,
+      user : Maybe User.Model
     }
 
 
@@ -31,7 +33,8 @@ initialState =
     {
       page = Page.init,
       reviews = [],
-      shows = []
+      shows = [],
+      user = Nothing
     }
 
 type Action
@@ -83,7 +86,9 @@ modelPage : AppState -> Page.Model
 modelPage state =
     {
       content = state.page.content,
-      user = state.page.user
+      user = state.page.user,
+      shows = state.shows,
+      reviews = state.reviews
     }
 
 scene : AppState -> Html

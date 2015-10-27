@@ -1,5 +1,7 @@
 module Component.Page where
 
+import Component.Show as Show
+import Component.Review as Review
 import Component.User as User
 import Tab.RecommendTab as RecommendTab
 
@@ -16,20 +18,21 @@ import Signal
 
 type alias Model =
     {
-      user : User.Model,
-      content : RecommendTab.Model
+      user : Maybe User.Model,
+      content : Maybe RecommendTab.Model,
+
+      shows : List Show.Model,
+      reviews : List Review.Model
     }
 
 
 init : Model
 init =
-  let
-      user = { handle = "gziegan" , firstName = "Greg", lastName = "Ziegan",
-               email = "greg.ziegan@gmail.com", phone = "012-345-6789" }
-  in
     {
-        user = user,
-        content = RecommendTab.init user
+        user = Nothing,
+        content = Nothing,
+        shows = [],
+        reviews = []
     }
 
 
@@ -49,7 +52,18 @@ update action model =
 
 
 view addresses model =
-  div [ id "page" ]
-    [
-      RecommendTab.view model.content
-    ]
+  div [ id "page" ] <|
+    case model.user of
+      Nothing ->
+        []
+      Just user ->
+        [
+          RecommendTab.view addresses (modelRecommendTab user model)
+        ]
+
+modelRecommendTab : User.Model -> Model -> RecommendTab.Model
+modelRecommendTab user model =
+  {
+    user = user,
+    shows = model.shows
+  }
