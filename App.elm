@@ -1,5 +1,4 @@
 module App where
-import Component.ShowList exposing (init, update, view)
 import Component.User as User
 import Component.Page as Page
 import Component.Review as Review

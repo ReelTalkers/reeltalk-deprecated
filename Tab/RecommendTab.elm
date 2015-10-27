@@ -1,9 +1,7 @@
 module Tab.RecommendTab where
 
-import Component.ShowList as ShowList
 import Component.User as User
 import Component.Show as Show
-import Component.ShowFilter as ShowFilter
 import Signal exposing (Address)
 import Html exposing (..)
 import Html.Attributes exposing (..)
