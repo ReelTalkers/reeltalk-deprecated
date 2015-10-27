@@ -52,7 +52,6 @@ update action model =
         NoOp ->
           model
 
-
 -- VIEW
 
 view : Addresses a -> Model -> Html

@@ -67,6 +67,7 @@ update action state =
               shows <- shows
           }
 
+
 -- VIEW
 
 
@@ -92,7 +93,7 @@ modelPage : AppState -> Page.Model
 modelPage state =
     {
       content = state.page.content,
-      user = state.page.user,
+      user = state.user,
       shows = state.shows,
       reviews = state.reviews
     }
@@ -113,7 +114,9 @@ state : Signal AppState
 state =
     Signal.foldp update initialState userInput
 
+
 -- PORTS --
+
 
 port setUser : Signal (Maybe User.Model)
 port listReviews : Signal (List Review.Model)
