@@ -1,10 +1,15 @@
 module Tab.RecommendTab where
 
+import Component.ShowList as ShowList
 import Component.User as User
 import Component.Show as Show
 import Component.ShowFilter as ShowFilter
 import Signal exposing (Address)
 import Html exposing (..)
+import Html.Attributes exposing (..)
+
+-- MODEL
+
 
 type alias Model =
   {
@@ -19,6 +24,10 @@ init user shows =
     shows = shows
   }
 
+
+-- UPDATE
+
+
 type Action
   = NoOp
 
@@ -28,8 +37,10 @@ update action model =
     NoOp ->
       model
 
+
+-- VIEW
+
+
 view channels model =
   div []
-    [
-      h1 [] [text "Recommend"]
-    ]
+    (h1 [] [text "Recommend"] :: List.map (\show -> img [src show.poster] []) model.shows)
