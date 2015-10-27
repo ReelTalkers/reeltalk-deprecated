@@ -43,4 +43,4 @@ update action model =
 
 view channels model =
   div []
-    (h1 [] [text "Recommend"] :: List.map (\show -> img [src show.poster] []) model.shows)
+    (h1 [] [text "Recommend"] :: List.map (\show -> img [src show.poster, height 150] []) model.shows)

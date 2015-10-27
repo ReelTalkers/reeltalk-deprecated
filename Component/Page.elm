@@ -56,16 +56,26 @@ update action model =
 
 view : Addresses a -> Model -> Html
 view addresses model =
-  div [ id "page" ] <|
-    case model.user of
-      Nothing ->
-        [
-          button [onClick addresses.requestUser ()] [text "Login!"]
-        ]
-      Just user ->
-        [
-          RecommendTab.view addresses (modelRecommendTab user model)
-        ]
+  div [ id "page" ]
+    [
+      div [class "mdl-tabs mdl-js-tabs mdl-js-ripple-effect"] <|
+        case model.user of
+          Nothing ->
+            [
+              button [onClick addresses.requestUser ()] [text "Login!"]
+            ]
+          Just user ->
+            [
+              div [class "mdl-tabs__tab-bar"] [
+                a [href "#recommend-panel", class "mdl-tabs__tab is_active"] [text "Recommend"],
+                a [href "#reviews-panel", class "mdl-tabs__tab"] [text "Reviews"]
+              ],
+              div [class "mdl-tabs__panel is-active", id "recommend-panel"] [
+                RecommendTab.view addresses (modelRecommendTab user model)
+              ],
+              div [class "mdl-tabs__panel", id "reviews-panel"] []
+            ]
+    ]
 
 modelRecommendTab : User.Model -> Model -> RecommendTab.Model
 modelRecommendTab user model =
