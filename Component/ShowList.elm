@@ -91,7 +91,7 @@ view address model =
 
 showEntry : Signal.Address Action -> Show.Model -> Html
 showEntry address show =
-  div [] 
+  div []
   [
     input [
             id "new-show-title",

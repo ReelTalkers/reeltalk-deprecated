@@ -15,7 +15,7 @@ type alias Model =
 type alias ID = Int
 
 init : Model
-init = 
+init =
     {
         reviews = []
     }

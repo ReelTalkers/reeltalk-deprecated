@@ -56,12 +56,13 @@ update action model =
 view: Signal.Address Action -> Model -> Html
 view address model =
   let showPoster = Show.viewAsBanner (Signal.forwardTo address NoOp) model.show
+      show = model.show
   in
     div [reviewContainer model.show]
       [
         div [showInformationColumn]
           [
-            h2 [] [text model.show.title],
+            h2 [] [text show.title],
             h3 [] [text ("Stars: " ++ (toString model.score))],
             button [ onClick address (UpdateScore 1) ] [ text "1" ],
             button [ onClick address (UpdateScore 2) ] [ text "2" ],
@@ -69,9 +70,9 @@ view address model =
             button [ onClick address (UpdateScore 4) ] [ text "4" ],
             button [ onClick address (UpdateScore 5) ] [ text "5" ],
             br [] [],
-            span [] [text ("Reviewed At: " ++ (currentTime model.createdAt))],
+            span [] [text (show.year ++ " " ++ show.mpaarating ++ " " ++ show.runtime)],
             br [] [],
-            span [] [text ("Reviewed By: " ++ (model.user.handle))]
+            span [] [text (show.description)]
           ],
         div [showPosterStyle]
           [
