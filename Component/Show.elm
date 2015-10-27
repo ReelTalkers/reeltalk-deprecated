@@ -11,16 +11,26 @@ type alias Model =
   {
     title : String,
     banner : String,
-    poster : String
+    poster : String,
+    color : String,
+    year : String,
+    mpaarating : String,
+    runtime : String,
+    description : String
   }
 
 
-init : String -> String -> String -> Model
-init title banner poster =
+init : String -> String -> String -> String -> String -> String -> String -> String -> Model
+init title banner poster color year mpaarating runtime description =
   {
     title = title,
     banner = banner,
-    poster = poster
+    poster = poster,
+    color = color,
+    year = year,
+    mpaarating = mpaarating,
+    runtime = runtime,
+    description = description
   }
 
 

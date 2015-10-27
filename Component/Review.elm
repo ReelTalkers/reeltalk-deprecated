@@ -7,6 +7,7 @@ import Time exposing (Time, every, second)
 import Date exposing (year, hour, minute, second, fromTime)
 import Html exposing (..)
 import Html.Events exposing (..)
+import Html.Attributes exposing (..)
 
 
 -- MODEL
@@ -54,23 +55,31 @@ update action model =
 
 view: Signal.Address Action -> Model -> Html
 view address model =
-  let showPoster = Show.viewAsPoster (Signal.forwardTo address NoOp) model.show
+  let showPoster = Show.viewAsBanner (Signal.forwardTo address NoOp) model.show
+      show = model.show
   in
-    div []
+    div [reviewContainer model.show]
       [
-        h2 [] [text model.show.title],
-        h3 [] [text ("Stars: " ++ (toString model.score))],
-        showPoster,
-        button [ onClick address (UpdateScore 1) ] [ text "1" ],
-        button [ onClick address (UpdateScore 2) ] [ text "2" ],
-        button [ onClick address (UpdateScore 3) ] [ text "3" ],
-        button [ onClick address (UpdateScore 4) ] [ text "4" ],
-        button [ onClick address (UpdateScore 5) ] [ text "5" ],
-        br [] [],
-        span [] [text ("Reviewed At: " ++ (currentTime model.createdAt))],
-        br [] [],
-        span [] [text ("Reviewed By: " ++ (model.user.handle))]
+        div [showInformationColumn]
+          [
+            h2 [] [text show.title],
+            h3 [] [text ("Stars: " ++ (toString model.score))],
+            button [ onClick address (UpdateScore 1) ] [ text "1" ],
+            button [ onClick address (UpdateScore 2) ] [ text "2" ],
+            button [ onClick address (UpdateScore 3) ] [ text "3" ],
+            button [ onClick address (UpdateScore 4) ] [ text "4" ],
+            button [ onClick address (UpdateScore 5) ] [ text "5" ],
+            br [] [],
+            span [] [text (show.year ++ " " ++ show.mpaarating ++ " " ++ show.runtime)],
+            br [] [],
+            span [] [text (show.description)]
+          ],
+        div [showPosterStyle]
+          [
+            showPoster
+          ]
       ]
+
 
 
 currentTime : Time -> String
@@ -92,9 +101,9 @@ type alias Context =
 
 viewWithRemoveButton : Context -> Model -> Html
 viewWithRemoveButton context model =
-  div []
+  div [reviewContainer model.show]
     [
-      h2 [] [text model.show.title],
+      h2 [reviewContainer model.show] [text model.show.title],
       br [] [],
       button [ onClick context.actions (UpdateScore 1) ] [ text "1" ],
       button [ onClick context.actions (UpdateScore 2) ] [ text "2" ],
@@ -103,4 +112,25 @@ viewWithRemoveButton context model =
       button [ onClick context.actions (UpdateScore 5) ] [ text "5" ],
       br [] [],
       button [ onClick context.remove () ] [ text "X" ]
+    ]
+
+reviewContainer : Show.Model -> Attribute
+reviewContainer show =
+  style
+    [ ("background-color", show.color),
+      ("display", "flex"),
+      ("max-height", "15em"),
+      ("flex-direction", "row")
+    ]
+
+showInformationColumn : Attribute
+showInformationColumn =
+  style
+    [ ("min-width", "60em")
+    ]
+
+showPosterStyle : Attribute
+showPosterStyle =
+  style
+    [ ("margin-left", "auto")
     ]
