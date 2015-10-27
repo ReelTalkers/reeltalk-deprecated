@@ -80,9 +80,7 @@ update action model =
       in
           { model | shows <- List.map updateShow model.shows }
 
-
 -- VIEW
-
 
 view : Signal.Address Action -> Model -> Html
 view address model =

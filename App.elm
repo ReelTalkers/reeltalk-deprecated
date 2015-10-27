@@ -2,6 +2,7 @@ module App where
 import Component.ShowList exposing (init, update, view)
 import Component.Page as Page
 import Component.Review as Review
+import Component.Show as Show
 
 import ReelTalk.Mailboxes as Mailboxes
 import ReelTalk.Mailboxes exposing (signals, addresses)
@@ -20,7 +21,8 @@ actions =
 type alias AppState =
     {
       page : Page.Model,
-      reviews: List Review.Model
+      reviews: List Review.Model,
+      shows: List Show.Model
     }
 
 
@@ -28,13 +30,15 @@ initialState : AppState
 initialState =
     {
       page = Page.init,
-      reviews = []
+      reviews = [],
+      shows = []
     }
 
 type Action
     = NoOp
     | SetPage Page.Model
     | ListReviews (List Review.Model)
+    | ListShows (List Show.Model)
 
 
 update : Action -> AppState -> AppState
@@ -50,6 +54,10 @@ update action state =
           { state |
               reviews <- reviews
           }
+        ListShows shows ->
+          { state |
+              shows <- shows
+          }
 
 -- VIEW
 
@@ -63,6 +71,7 @@ userInput =
     Signal.mergeMany
         [
           Signal.map ListReviews listReviews,
+          Signal.map ListShows listShows,
           actions.signal
         ]
 
@@ -96,6 +105,7 @@ state =
 -- PORTS --
 
 port listReviews : Signal (List Review.Model)
+port listShows : Signal (List Show.Model)
 
 port newReview : Signal ()
 port newReview =

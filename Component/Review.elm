@@ -35,8 +35,10 @@ init show score createdAt user =
 
 -- UPDATE
 
+type ID = Int
 
 type Action = UpdateScore Score
+  | NoOp Show.Action
 
 update : Action -> Model -> Model
 update action model =
@@ -45,27 +47,30 @@ update action model =
       { model |
           score <- newScore
       }
-
+    NoOp showAction ->
+      model
 
 -- VIEW
 
-
 view: Signal.Address Action -> Model -> Html
 view address model =
-  div []
-    [
-      h2 [] [text model.show.title],
-      br [] [],
-      button [ onClick address (UpdateScore 1) ] [ text "1" ],
-      button [ onClick address (UpdateScore 2) ] [ text "2" ],
-      button [ onClick address (UpdateScore 3) ] [ text "3" ],
-      button [ onClick address (UpdateScore 4) ] [ text "4" ],
-      button [ onClick address (UpdateScore 5) ] [ text "5" ],
-      br [] [],
-      span [] [text ("Reviewed At: " ++ (currentTime model.createdAt))],
-      br [] [],
-      span [] [text ("Reviewed By: " ++ (model.user.handle))]
-    ]
+  let showPoster = Show.viewAsPoster (Signal.forwardTo address NoOp) model.show
+  in
+    div []
+      [
+        h2 [] [text model.show.title],
+        h3 [] [text ("Stars: " ++ (toString model.score))],
+        showPoster,
+        button [ onClick address (UpdateScore 1) ] [ text "1" ],
+        button [ onClick address (UpdateScore 2) ] [ text "2" ],
+        button [ onClick address (UpdateScore 3) ] [ text "3" ],
+        button [ onClick address (UpdateScore 4) ] [ text "4" ],
+        button [ onClick address (UpdateScore 5) ] [ text "5" ],
+        br [] [],
+        span [] [text ("Reviewed At: " ++ (currentTime model.createdAt))],
+        br [] [],
+        span [] [text ("Reviewed By: " ++ (model.user.handle))]
+      ]
 
 
 currentTime : Time -> String

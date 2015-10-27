@@ -4,12 +4,6 @@ import Component.User as User
 import Component.ShowFilter as ShowFilter
 
 import Html exposing (..)
-import Signal exposing (Address, mailbox)
-
-type alias Addresses a =
-    { a |
-      newReview : Address ()
-    }
 
 type alias Model =
   {
@@ -24,11 +18,21 @@ init user =
     shows = ShowFilter.init
   }
 
+type Action
+  = FilterShows ShowFilter.Action
 
-view: Addresses a -> Model -> Html
-view addresses model =
+update: Action -> Model -> Model
+update action model =
+  case action of
+    FilterShows act ->
+      { model |
+          shows <- ShowFilter.update act model.shows
+      }
+
+view: Model -> Html
+view model =
   div []
     [
-      h1 [] [text "Recommended"],
+      h1 [] [text "Recommend"],
       ShowFilter.view model.shows
     ]

@@ -51,5 +51,5 @@ update action model =
 view addresses model =
   div [ id "page" ]
     [
-      RecommendTab.view addresses model.content
+      RecommendTab.view model.content
     ]

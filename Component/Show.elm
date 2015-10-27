@@ -30,6 +30,7 @@ type Action
   = ChangeTitle String
   | ChangeBanner String
   | ChangePoster String
+  | NoOp
 
 
 update : Action -> Model -> Model
@@ -41,6 +42,8 @@ update action model =
       { model | banner <- newBanner }
     ChangePoster newPoster ->
       { model | poster <- newPoster }
+    NoOp ->
+      model
 
 
 -- VIEW
