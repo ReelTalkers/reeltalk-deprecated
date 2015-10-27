@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Elm • TodoMVC</title>
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-pink.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<body>
+
+<script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
+<script type="text/javascript" src="elm.js"></script>
+<script type="text/javascript">
+var reeltalk = Elm.fullscreen(Elm.App, {
+  listReviews: [],
+  listShows: []
+});
+reeltalk.ports.listReviews.send(reviewsLookup());
+reeltalk.ports.listShows.send(getShows());
+
+function getShows() {
+  var firefly = { title: "Firefly", banner: "./mock/show/firefly/firefly-banner.jpg", poster: "./mock/show/firefly/firefly-poster.jpg" };
+  var buffy = { title: "Buffy", banner: "./mock/show/buffy/buffy-banner.jpg", poster: "./mock/show/buffy/buffy-poster.jpg"};
+  var dollhouse = { title: "Dollhouse", banner: "./mock/show/dollhouse/dollhouse-banner.jpg", poster: "./mock/show/dollhouse/dollhouse-poster.jpg"}
+  return [firefly, buffy, dollhouse];
+}
+
+function reviewsLookup() {
+  var me = { handle: "gziegan", firstName: "Greg", lastName: "Ziegan",
+             email: "greg.ziegan@gmail.com", phone: "012-345-6789" };
+  var firefly = { title: "Firefly", banner: "./mock/show/firefly/firefly-banner.jpg", poster: "./mock/show/firefly/firefly-poster.jpg" };
+  var reviews = [
+    {show: firefly, score: 5, createdAt: (new Date).getTime(), user: me}
+  ];
+  return reviews;
+}
+
+</script>
+</body>
+</html>

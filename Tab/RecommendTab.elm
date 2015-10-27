@@ -1,4 +1,4 @@
-module Page.RecommendTab where
+module Tab.RecommendTab where
 
 import Component.User as User
 import Component.ShowFilter as ShowFilter
@@ -29,10 +29,10 @@ update action model =
           shows <- ShowFilter.update act model.shows
       }
 
-view: Signal.Address Action -> Model -> Html
-view address model =
+view: Model -> Html
+view model =
   div []
     [
       h1 [] [text "Recommend"],
-      ShowFilter.view (Signal.forwardTo address FilterShows) model.shows
+      ShowFilter.view model.shows
     ]
