@@ -40,7 +40,7 @@ initialState =
 type Action
     = NoOp
     | SetPage Page.Model
-    | RequestUser (Maybe User.Model)
+    | SetUser (Maybe User.Model)
     | ListReviews (List Review.Model)
     | ListShows (List Show.Model)
 
@@ -54,7 +54,7 @@ update action state =
           { state |
               page <- model
           }
-        RequestUser user ->
+        SetUser user ->
           { state |
               user <- user
           }
@@ -78,7 +78,7 @@ userInput : Signal Action
 userInput =
     Signal.mergeMany
         [
-          Signal.map RequestUser requestUser,
+          Signal.map SetUser setUser,
           Signal.map ListReviews listReviews,
           Signal.map ListShows listShows,
           actions.signal
@@ -115,10 +115,14 @@ state =
 
 -- PORTS --
 
-port requestUser : Signal (Maybe User.Model)
+port setUser : Signal (Maybe User.Model)
 port listReviews : Signal (List Review.Model)
 port listShows : Signal (List Show.Model)
 
 port newReview : Signal ()
 port newReview =
   signals.newReview
+
+port requestUser : Signal ()
+port requestUser =
+  signals.requestUser

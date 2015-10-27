@@ -11,10 +11,14 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 
 import Signal
-
+import Signal exposing (Address)
 
 -- MODEL
 
+type alias Addresses a =
+  { a |
+      requestUser: Address ()
+  }
 
 type alias Model =
     {
@@ -38,6 +42,7 @@ init =
 
 -- UPDATE
 
+
 type Action
     = NoOp
 
@@ -50,12 +55,14 @@ update action model =
 
 -- VIEW
 
-
+view : Addresses a -> Model -> Html
 view addresses model =
   div [ id "page" ] <|
     case model.user of
       Nothing ->
-        []
+        [
+          button [onClick addresses.requestUser ()] [text "Login!"]
+        ]
       Just user ->
         [
           RecommendTab.view addresses (modelRecommendTab user model)

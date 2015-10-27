@@ -14,18 +14,18 @@
 <script type="text/javascript" src="elm.js"></script>
 <script type="text/javascript">
 var reeltalk = Elm.fullscreen(Elm.App, {
-  requestUser: null,
+  setUser: null,
   listReviews: [],
   listShows: []
 });
-reeltalk.ports.requestUser.send(getUser())
 reeltalk.ports.listReviews.send(reviewsLookup());
 reeltalk.ports.listShows.send(getShows());
+reeltalk.ports.requestUser.subscribe(getUser);
 
 function getUser() {
   var me = { handle: "gziegan", firstName: "Greg", lastName: "Ziegan",
              email: "greg.ziegan@gmail.com", phone: "012-345-6789" };
-  return me;
+  reeltalk.ports.setUser.send(me);
 }
 
 function getShows() {
@@ -37,12 +37,13 @@ function getShows() {
 
 function reviewsLookup() {
   var firefly = { title: "Firefly", banner: "./mock/show/firefly/firefly-banner.jpg", poster: "./mock/show/firefly/firefly-poster.jpg" };
+  var me = { handle: "gziegan", firstName: "Greg", lastName: "Ziegan",
+             email: "greg.ziegan@gmail.com", phone: "012-345-6789" };
   var reviews = [
-    {show: firefly, score: 5, createdAt: (new Date).getTime(), user: getUser()}
+    {show: firefly, score: 5, createdAt: (new Date).getTime(), user: me }
   ];
   return reviews;
 }
-
 </script>
 </body>
 </html>

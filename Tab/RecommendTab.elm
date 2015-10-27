@@ -6,11 +6,6 @@ import Component.ShowFilter as ShowFilter
 import Signal exposing (Address)
 import Html exposing (..)
 
-type alias Addresses a =
-  { a |
-      newReview : Address ()
-  }
-
 type alias Model =
   {
     user : User.Model,
@@ -33,7 +28,6 @@ update action model =
     NoOp ->
       model
 
-view: Addresses a -> Model -> Html
 view channels model =
   div []
     [
