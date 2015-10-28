@@ -38,6 +38,65 @@ function getShows() {
   return [firefly, buffy, dollhouse];
 }
 
+function getImage(url) {
+  var img = new Image();
+  img.src = url;
+  return img;
+}
+
+function getColor(url) {
+  img = getImage(url);
+
+  var colorThief = new ColorThief();
+  return colorThief.getColor(img);
+}
+
+function getPalette(url) {
+  var img = new Image();
+  img.src = url;
+
+  var colorThief = new ColorThief();
+  return colorThief.getPalette(img);
+}
+
+function getTextColor(mainColor, palette) {
+  if(getBrightness(mainColor)>50) {
+    return getDarkestColor(palette);
+  } else {
+    return getLightestColor(palette);
+  }
+}
+
+function getLightestColor(palette) {
+  var lightestColor = palette[0];
+  var lightestBrightness = getBrightness(palette[0]);
+  palette.forEach(function(color) {
+    var currentBrightness = getBrightness(color);
+    if(currentBrightness>lightestBrightness) {
+      lightestBrightness = currentBrightness;
+      lightestColor = color;
+    }
+  });
+  return lightestColor;
+}
+
+function getDarkestColor(palette) {
+  var darkestColor = palette[0];
+  var darkestBrightness = getBrightness(palette[0]);
+  palette.forEach(function(color) {
+    var currentBrightness = getBrightness(color);
+    if(currentBrightness<darkestBrightness) {
+      darkestBrightness = currentBrightness;
+      darkestColor = color;
+    }
+  });
+  return darkestColor;
+}
+
+function getBrightness(color) {
+  return Math.sqrt(.241*(color[0]*color[0]) + .691*(color[1]*color[1]) + .068*(color[2]*color[2]))/2.55;
+}
+
 function reviewsLookup() {
   var firefly = { title: "Firefly", banner: "./mock/show/firefly/firefly-banner.jpg", poster: "./mock/show/firefly/firefly-poster.jpg", color: "red", year: "2002", mpaarating : "T", runtime: "1 season", description: "good show" };
   var me = { handle: "gziegan", firstName: "Greg", lastName: "Ziegan",
