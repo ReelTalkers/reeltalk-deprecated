@@ -63,11 +63,7 @@ update action model =
 
 view : Signal.Address Action -> Model -> Html
 view address model =
-  div [centeredStyle]
-    [
-      h2 [] [text model.title],
       img [src model.poster] []
-    ]
 
 viewAsPoster : Signal.Address Action -> Model -> Html
 viewAsPoster address model =

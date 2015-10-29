@@ -21,17 +21,17 @@ main =
      dollhousePoster = dollhousePath ++ "dollhouse-poster.jpg"
 
      firefly = (Show.init "Firefly" fireflyBanner fireflyPoster "#291E1A"
-      "white" "2002" "TV-14" "44m"
+      "#D49675" "2002" "TV-14" "44m"
       "Five hundred years in the future, a renegade crew aboard a small
       spacecraft tries to survive as they travel the unknown parts of the galaxy
       and evade warring factions as well as authority agents out to get them.")
      buffy = (Show.init "Buffy" buffyBanner buffyPoster "#E27477"
-      "black" "1997" "TV-14" "44m"
+      "#130508" "1997" "TV-14" "44m"
       "A young girl, destined to slay vampires, demons and other infernal
       creatures, deals with her life fighting evil, with the help of her
       friends.")
      dollhouse = (Show.init "Dollhouse" dollhouseBanner dollhousePoster "#ACA18E"
-      "black" "2009" "TV-14" "44m"
+      "#29241E" "2009" "TV-14" "44m"
       "A futuristic laboratory assigns different tasks to its various residents,
       who then have their memories erased upon the completion of their
       assignments.")
