@@ -60,23 +60,22 @@ view address model =
   in
     div [reviewContainer model.show]
       [
-        div [showInformationColumn]
+        div []
           [
-            h2 [] [text show.title],
-            h3 [] [text ("Stars: " ++ (toString model.score))],
+            h2 [textStyle show] [text show.title],
+            h3 [textStyle show] [text ("Stars: " ++ (toString model.score))],
             button [ onClick address (UpdateScore 1) ] [ text "1" ],
             button [ onClick address (UpdateScore 2) ] [ text "2" ],
             button [ onClick address (UpdateScore 3) ] [ text "3" ],
             button [ onClick address (UpdateScore 4) ] [ text "4" ],
             button [ onClick address (UpdateScore 5) ] [ text "5" ],
+            span [textStyle show] [text ("  " ++ show.year ++ " " ++ show.mpaarating ++ " " ++ show.runtime)],
             br [] [],
-            span [] [text (show.year ++ " " ++ show.mpaarating ++ " " ++ show.runtime)],
-            br [] [],
-            span [] [text (show.description)]
+            span [textStyle show] [text (show.description)]
           ],
-        div [showPosterStyle]
+        div [showBannerContainer]
           [
-            showPoster
+            img [src show.banner, showBanner] []
           ]
       ]
 
@@ -123,14 +122,21 @@ reviewContainer show =
       ("flex-direction", "row")
     ]
 
-showInformationColumn : Attribute
-showInformationColumn =
+showBannerContainer : Attribute
+showBannerContainer =
   style
-    [ ("min-width", "60em")
+    [ ("margin-left", "auto"),
+      ("max-height", "15em")
     ]
 
-showPosterStyle : Attribute
-showPosterStyle =
+textStyle : Show.Model -> Attribute
+textStyle show =
   style
-    [ ("margin-left", "auto")
+    [ ("color", show.textColor)
+    ]
+
+showBanner : Attribute
+showBanner =
+  style
+    [ ("max-height", "15em")
     ]

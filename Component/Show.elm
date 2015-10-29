@@ -13,6 +13,7 @@ type alias Model =
     banner : String,
     poster : String,
     color : String,
+    textColor : String,
     year : String,
     mpaarating : String,
     runtime : String,
@@ -20,13 +21,14 @@ type alias Model =
   }
 
 
-init : String -> String -> String -> String -> String -> String -> String -> String -> Model
-init title banner poster color year mpaarating runtime description =
+init : String -> String -> String -> String -> String -> String -> String -> String -> String -> Model
+init title banner poster color textColor year mpaarating runtime description =
   {
     title = title,
     banner = banner,
     poster = poster,
     color = color,
+    textColor = textColor,
     year = year,
     mpaarating = mpaarating,
     runtime = runtime,
