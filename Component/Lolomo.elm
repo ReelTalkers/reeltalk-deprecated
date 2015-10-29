@@ -40,7 +40,13 @@ update action model =
 --VIEW
 view : Signal.Address Action -> Model -> Html
 view address model =
-      div [] (List.map (viewRow address) model.rows)
+      let
+        rows = div [] (List.map (viewRow address) model.rows)
+      in
+        div []
+          [
+            rows
+          ]
 
 viewRow : Signal.Address Action -> (ID, LolomoRow.Model) -> Html
 viewRow address (id, model) =

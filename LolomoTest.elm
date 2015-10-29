@@ -46,8 +46,8 @@ main =
      buffyReview = Review.init buffy 4 defaultTime user
      dollhouseReview = Review.init dollhouse 3 defaultTime user
 
-     lolomoRow = LolomoRow.init [firefly, buffy]
-     lolomoRow2 = LolomoRow.init [dollhouse]
+     lolomoRow = LolomoRow.init "Sci-Fi" [firefly, buffy]
+     lolomoRow2 = LolomoRow.init "Romance" [dollhouse]
 
      lolomo = Lolomo.init [lolomoRow, lolomoRow2]
   in

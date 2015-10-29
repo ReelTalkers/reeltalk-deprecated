@@ -63,7 +63,11 @@ update action model =
 
 view : Signal.Address Action -> Model -> Html
 view address model =
-      img [src model.poster] []
+    div [showStyle]
+      [
+        img [src model.poster] []
+      ]
+
 
 viewAsPoster : Signal.Address Action -> Model -> Html
 viewAsPoster address model =
@@ -79,9 +83,9 @@ viewAsBanner address model =
       img [src model.banner] []
     ]
 
-centeredStyle : Attribute
-centeredStyle =
+showStyle : Attribute
+showStyle =
   style
     [
-      ("text-align", "center")
+      ("display", "TABLE-CELL")
     ]

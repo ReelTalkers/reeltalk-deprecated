@@ -10,15 +10,17 @@ import Json.Decode as Json
 
 type alias Model =
   {
-    shows : List ( ID, Show.Model )
+    shows : List ( ID, Show.Model ),
+    genre : String
   }
 
 type alias ID = Int
 
-init : List Show.Model -> Model
-init shows =
+init : String -> List Show.Model -> Model
+init genre shows =
   {
-    shows = List.indexedMap (\i show -> (i, show)) shows
+    shows = List.indexedMap (\i show -> (i, show)) shows,
+    genre = genre
   }
 
 -- UPDATE
@@ -44,8 +46,27 @@ update action model =
 
 view : Signal.Address Action -> Model -> Html
 view address model =
-      div [] (List.map (viewShow address) model.shows)
+      let
+        shows = div [showTable] (List.map (viewShow address) model.shows)
+      in
+        div [headerStyle]
+          [
+            h2 [] [text model.genre],
+            shows
+          ]
 
 viewShow : Signal.Address Action -> (ID, Show.Model) -> Html
 viewShow address (id, model) =
   Show.view (Signal.forwardTo address (Modify id)) model
+
+headerStyle : Attribute
+headerStyle =
+  style
+    [ ("text-align", "center")
+    ]
+
+showTable : Attribute
+showTable =
+  style
+    [ ("display", "TABLE-ROW")
+    ]
