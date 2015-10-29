@@ -2,7 +2,7 @@ module Tab.LolomoTestTab where
 
 import Component.User as User
 import Component.Show as Show
-import Component.LolomoRow as LolomoRow
+import Component.Lolomo as Lolomo
 import Signal exposing (Address)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -13,14 +13,14 @@ import Html.Attributes exposing (..)
 type alias Model =
   {
     user : User.Model,
-    shows : LolomoRow.Model
+    lolomo : Lolomo.Model
   }
 
-init: User.Model -> LolomoRow.Model -> Model
-init user shows =
+init: User.Model -> Lolomo.Model -> Model
+init user lolomo =
   {
     user = user,
-    shows = shows
+    lolomo = lolomo
   }
 
 
@@ -29,7 +29,7 @@ init user shows =
 
 type Action
   = NoOp |
-    Modify LolomoRow.Action
+    Modify Lolomo.Action
 
 update: Action -> Model -> Model
 update action model =
@@ -38,7 +38,7 @@ update action model =
       model
     Modify act ->
         { model |
-            shows <- LolomoRow.update act model.shows
+            lolomo <- Lolomo.update act model.lolomo
         }
 
 -- VIEW
@@ -49,7 +49,7 @@ view address model =
   div []
     [
       h1 [headerStyle] [text "Recommend"],
-      LolomoRow.view (Signal.forwardTo address Modify) model.shows
+      Lolomo.view (Signal.forwardTo address Modify) model.lolomo
 
     ]
 

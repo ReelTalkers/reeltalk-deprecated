@@ -1,10 +1,11 @@
 import Tab.LolomoTestTab exposing (init, update, view)
-import Component.Show as Show
 import StartApp.Simple exposing (start)
 import Svg exposing (Svg)
 import Time
+import Component.Show as Show
 import Component.Review as Review
 import Component.LolomoRow as LolomoRow
+import Component.Lolomo as Lolomo
 
 main : Signal Svg.Svg
 main =
@@ -45,11 +46,14 @@ main =
      buffyReview = Review.init buffy 4 defaultTime user
      dollhouseReview = Review.init dollhouse 3 defaultTime user
 
-     lolomoRow = LolomoRow.init [firefly, buffy, dollhouse]
+     lolomoRow = LolomoRow.init [firefly, buffy]
+     lolomoRow2 = LolomoRow.init [dollhouse]
+
+     lolomo = Lolomo.init [lolomoRow, lolomoRow2]
   in
     start
       {
-        model = init user lolomoRow,
+        model = init user lolomo,
         update = update,
         view = view
       }
