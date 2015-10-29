@@ -34,7 +34,7 @@ type alias AppState =
 initialState : AppState
 initialState =
     {
-      page = Page.init,
+      page = Page.initialModel,
       reviews = [],
       shows = [],
       user = Nothing
@@ -94,23 +94,11 @@ generalizePageUpdate state pageUpdate =
 
 modelPage : AppState -> Page.Model
 modelPage state =
-  case state.user of
-    Nothing ->
-      {
-        recommendScreen = Nothing,
-        reviewsScreen = Nothing,
-        user = state.user,
-        shows = state.shows,
-        reviews = state.reviews
-      }
-    Just user ->
-      {
-        recommendScreen = Just (RecommendScreen.init user state.shows),
-        reviewsScreen = Just (ReviewsScreen.init user (ReviewList.initWithReviews state.reviews)),
-        user = state.user,
-        shows = state.shows,
-        reviews = state.reviews
-      }
+  {
+    user = state.user,
+    shows = state.shows,
+    reviews = state.reviews
+  }
 
 scene : AppState -> Html
 scene state =
