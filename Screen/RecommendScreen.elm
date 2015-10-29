@@ -1,4 +1,4 @@
-module Tab.RecommendTab where
+module Screen.RecommendScreen where
 
 import Component.User as User
 import Component.Show as Show
@@ -15,7 +15,7 @@ type alias Model =
     shows : List Show.Model
   }
 
-init: User.Model -> List Show.Model -> Model
+init : User.Model -> List Show.Model -> Model
 init user shows =
   {
     user = user,
@@ -26,12 +26,12 @@ init user shows =
 -- UPDATE
 
 
-type Action
+type Update
   = NoOp
 
-update: Action -> Model -> Model
-update action model =
-  case action of
+transition : Update -> Model -> Model
+transition update model =
+  case update of
     NoOp ->
       model
 

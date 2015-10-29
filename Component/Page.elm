@@ -2,8 +2,11 @@ module Component.Page where
 
 import Component.Show as Show
 import Component.Review as Review
+import Component.ReviewList as ReviewList
 import Component.User as User
-import Tab.RecommendTab as RecommendTab
+
+import Screen.RecommendScreen as RecommendScreen
+import Screen.ReviewsScreen as ReviewsScreen
 
 import String
 import Html exposing (..)
@@ -15,16 +18,13 @@ import Signal exposing (Address)
 
 -- MODEL
 
-type alias Addresses a =
-  { a |
-      requestUser: Address ()
-  }
 
 type alias Model =
     {
-      user : Maybe User.Model,
-      content : Maybe RecommendTab.Model,
+      recommendScreen : Maybe RecommendScreen.Model,
+      reviewsScreen : Maybe ReviewsScreen.Model,
 
+      user : Maybe User.Model,
       shows : List Show.Model,
       reviews : List Review.Model
     }
@@ -33,8 +33,10 @@ type alias Model =
 init : Model
 init =
     {
+        recommendScreen = Nothing,
+        reviewsScreen = Nothing,
+
         user = Nothing,
-        content = Nothing,
         shows = [],
         reviews = []
     }
@@ -43,43 +45,74 @@ init =
 -- UPDATE
 
 
-type Action
+type Update
     = NoOp
+    | UpdateReviewsScreen ReviewsScreen.Update
 
-update : Action -> Model -> Model
-update action model =
-    case action of
+transition : Update -> Model -> Model
+transition update model =
+    case update of
         NoOp ->
+          model
+        UpdateReviewsScreen act ->
           model
 
 -- VIEW
 
-view : Addresses a -> Model -> Html
 view addresses model =
   div [ id "page" ]
     [
       div [class "mdl-tabs mdl-js-tabs mdl-js-ripple-effect"] <|
         case model.user of
           Nothing ->
-            [
-              button [onClick addresses.requestUser ()] [text "Login!"]
-            ]
+            viewLoggedOut addresses model
+
           Just user ->
-            [
-              div [class "mdl-tabs__tab-bar"] [
-                a [href "#recommend-panel", class "mdl-tabs__tab is_active"] [text "Recommend"],
-                a [href "#reviews-panel", class "mdl-tabs__tab"] [text "Reviews"]
-              ],
-              div [class "mdl-tabs__panel is-active", id "recommend-panel"] [
-                RecommendTab.view addresses (modelRecommendTab user model)
-              ],
-              div [class "mdl-tabs__panel", id "reviews-panel"] []
-            ]
+            viewLoggedIn addresses user model
+
     ]
 
-modelRecommendTab : User.Model -> Model -> RecommendTab.Model
-modelRecommendTab user model =
+viewLoggedOut addresses model =
+  [
+    button [onClick addresses.requestUser ()] [text "Login!"]
+  ]
+
+viewLoggedIn addresses user model =
+  let
+      updateReviewsScreen =
+        Signal.forwardTo addresses.update UpdateReviewsScreen
+
+      recommendScreenChannels = addresses
+
+      reviewsScreenChannels =
+        { addresses | update <- updateReviewsScreen }
+  in
+      [
+        div [class "mdl-tabs__tab-bar"]
+          [
+            a [href "#recommend-panel", class "mdl-tabs__tab is_active"] [text "Recommend"],
+            a [href "#reviews-panel", class "mdl-tabs__tab"] [text "Reviews"]
+          ],
+        div [class "mdl-tabs__panel is-active", id "recommend-panel"]
+          [
+            RecommendScreen.view recommendScreenChannels (modelRecommendScreen user model)
+          ],
+        div [class "mdl-tabs__panel", id "reviews-panel"]
+          [
+            ReviewsScreen.view reviewsScreenChannels (modelReviewsScreen user model)
+          ]
+      ]
+
+modelRecommendScreen : User.Model -> Model -> RecommendScreen.Model
+modelRecommendScreen user model =
   {
     user = user,
     shows = model.shows
+  }
+
+modelReviewsScreen : User.Model -> Model -> ReviewsScreen.Model
+modelReviewsScreen user model =
+  {
+    user = user,
+    reviewList = ReviewList.initWithReviews model.reviews
   }

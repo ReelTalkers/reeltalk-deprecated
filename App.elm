@@ -3,6 +3,10 @@ import Component.User as User
 import Component.Page as Page
 import Component.Review as Review
 import Component.Show as Show
+import Component.ReviewList as ReviewList
+
+import Screen.RecommendScreen as RecommendScreen
+import Screen.ReviewsScreen as ReviewsScreen
 
 import ReelTalk.Mailboxes as Mailboxes
 import ReelTalk.Mailboxes exposing (signals, addresses)
@@ -14,8 +18,8 @@ import Signal
 -- UPDATE --
 
 
-actions : Signal.Mailbox Action
-actions =
+updates : Signal.Mailbox Update
+updates =
     Signal.mailbox NoOp
 
 type alias AppState =
@@ -36,7 +40,7 @@ initialState =
       user = Nothing
     }
 
-type Action
+type Update
     = NoOp
     | SetPage Page.Model
     | SetUser (Maybe User.Model)
@@ -44,8 +48,8 @@ type Action
     | ListShows (List Show.Model)
 
 
-update : Action -> AppState -> AppState
-update action state =
+transition : Update -> AppState -> AppState
+transition action state =
     case action of
         NoOp ->
             state
@@ -74,34 +78,45 @@ main : Signal Html
 main =
     Signal.map scene state
 
-userInput : Signal Action
+userInput : Signal Update
 userInput =
     Signal.mergeMany
         [
           Signal.map SetUser setUser,
           Signal.map ListReviews listReviews,
           Signal.map ListShows listShows,
-          actions.signal
+          updates.signal
         ]
 
-generalizePageUpdate : AppState -> Page.Action -> Action
-generalizePageUpdate state pageAction =
-    SetPage (Page.update pageAction state.page)
+generalizePageUpdate : AppState -> Page.Update -> Update
+generalizePageUpdate state pageUpdate =
+    SetPage (Page.transition pageUpdate state.page)
 
 modelPage : AppState -> Page.Model
 modelPage state =
-    {
-      content = state.page.content,
-      user = state.user,
-      shows = state.shows,
-      reviews = state.reviews
-    }
+  case state.user of
+    Nothing ->
+      {
+        recommendScreen = Nothing,
+        reviewsScreen = Nothing,
+        user = state.user,
+        shows = state.shows,
+        reviews = state.reviews
+      }
+    Just user ->
+      {
+        recommendScreen = Just (RecommendScreen.init user state.shows),
+        reviewsScreen = Just (ReviewsScreen.init user (ReviewList.initWithReviews state.reviews)),
+        user = state.user,
+        shows = state.shows,
+        reviews = state.reviews
+      }
 
 scene : AppState -> Html
 scene state =
     let
         pageUpdate =
-            Signal.forwardTo actions.address (generalizePageUpdate state)
+            Signal.forwardTo updates.address (generalizePageUpdate state)
 
         addresses =
             Mailboxes.addresses
@@ -111,7 +126,7 @@ scene state =
 
 state : Signal AppState
 state =
-    Signal.foldp update initialState userInput
+    Signal.foldp transition initialState userInput
 
 
 -- PORTS --
