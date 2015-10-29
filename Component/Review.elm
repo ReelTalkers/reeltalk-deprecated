@@ -140,7 +140,3 @@ showBanner =
   style
     [ ("max-height", "15em")
     ]
-
-port requestColorScheme : String -> Signal String
-port requestColorScheme url =
-  requestColorScheme url
