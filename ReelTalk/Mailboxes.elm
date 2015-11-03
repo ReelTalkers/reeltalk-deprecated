@@ -44,5 +44,5 @@ requestUser =
   Signal.mailbox ()
 
 requestColorScheme : Signal.Mailbox String
-requestColorScheme url =
-  Signal.mailbox url
+requestColorScheme =
+  Signal.mailbox ""
