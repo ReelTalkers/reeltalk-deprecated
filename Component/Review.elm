@@ -60,7 +60,7 @@ view address model =
   in
     div [reviewContainer model.show]
       [
-        div []
+        div [reviewTextStyle]
           [
             h2 [textStyle show] [text show.title],
             h3 [textStyle show] [text ("Stars: " ++ (toString model.score))],
@@ -73,10 +73,7 @@ view address model =
             br [] [],
             span [textStyle show] [text (show.description)]
           ],
-        div [showBannerContainer]
-          [
-            img [src show.banner, showBanner] []
-          ]
+        img [src show.banner, reviewBannerStyle] []
       ]
 
 
@@ -107,10 +104,10 @@ reviewContainer show =
       ("flex-direction", "row")
     ]
 
-showBannerContainer : Attribute
-showBannerContainer =
+reviewTextStyle : Attribute
+reviewTextStyle =
   style
-    [ ("max-height", "15em")
+    [ ("flex", "2 1 auto")
     ]
 
 textStyle : Show.Model -> Attribute
@@ -119,8 +116,9 @@ textStyle show =
     [ ("color", show.textColor)
     ]
 
-showBanner : Attribute
-showBanner =
+reviewBannerStyle : Attribute
+reviewBannerStyle =
   style
-    [ ("max-height", "15em")
+    [ ("max-height", "15em"),
+      ("flex", "1 0 auto")
     ]
