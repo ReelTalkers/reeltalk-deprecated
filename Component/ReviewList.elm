@@ -4,6 +4,7 @@ module Component.ReviewList (Model, init, initWithReviews, Action, update, view)
 import Component.Review as Review
 
 import Html exposing (..)
+import Html.Attributes exposing (..)
 
 -- MODEL
 
@@ -45,8 +46,16 @@ update action model =
 -- VIEW
 view : Signal.Address Action -> Model -> Html
 view address model =
-    div [] (List.map (viewReview address) model.reviews)
+    div [reviewListStyle] (List.map (viewReview address) model.reviews)
 
 viewReview : Signal.Address Action -> (ID, Review.Model) -> Html
 viewReview address (id, model) =
   Review.view (Signal.forwardTo address (Modify id)) model
+
+reviewListStyle : Attribute
+reviewListStyle =
+  style
+    [ ("display", "flex"),
+      ("max-height", "15em"),
+      ("flex-direction", "column")
+    ]

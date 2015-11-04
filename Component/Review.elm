@@ -1,5 +1,5 @@
 module Component.Review (Model, init, Action, update,
-                         view, viewWithRemoveButton, Context) where
+                         view, Context) where
 
 import Component.Show as Show
 import Component.User as User
@@ -98,21 +98,6 @@ type alias Context =
     remove : Signal.Address ()
   }
 
-viewWithRemoveButton : Context -> Model -> Html
-viewWithRemoveButton context model =
-  div [reviewContainer model.show]
-    [
-      h2 [reviewContainer model.show] [text model.show.title],
-      br [] [],
-      button [ onClick context.actions (UpdateScore 1) ] [ text "1" ],
-      button [ onClick context.actions (UpdateScore 2) ] [ text "2" ],
-      button [ onClick context.actions (UpdateScore 3) ] [ text "3" ],
-      button [ onClick context.actions (UpdateScore 4) ] [ text "4" ],
-      button [ onClick context.actions (UpdateScore 5) ] [ text "5" ],
-      br [] [],
-      button [ onClick context.remove () ] [ text "X" ]
-    ]
-
 reviewContainer : Show.Model -> Attribute
 reviewContainer show =
   style
@@ -125,8 +110,7 @@ reviewContainer show =
 showBannerContainer : Attribute
 showBannerContainer =
   style
-    [ ("margin-left", "auto"),
-      ("max-height", "15em")
+    [ ("max-height", "15em")
     ]
 
 textStyle : Show.Model -> Attribute
