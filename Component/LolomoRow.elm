@@ -47,11 +47,11 @@ update action model =
 view : Signal.Address Action -> Model -> Html
 view address model =
       let
-        shows = div [showTable] (List.map (viewShow address) model.shows)
+        shows = div [showListStyle] (List.map (viewShow address) model.shows)
       in
-        div [headerStyle]
+        div [lolomoRowStyle]
           [
-            h2 [] [text model.genre],
+            h2 [headerStyle] [text model.genre],
             shows
           ]
 
@@ -59,14 +59,22 @@ viewShow : Signal.Address Action -> (ID, Show.Model) -> Html
 viewShow address (id, model) =
   Show.view (Signal.forwardTo address (Modify id)) model
 
+lolomoRowStyle : Attribute
+lolomoRowStyle =
+  style
+    [ ("display", "flex"),
+      ("flex-direction", "column")
+    ]
+
 headerStyle : Attribute
 headerStyle =
   style
-    [ ("text-align", "center")
+    [ ("align-self", "center")
     ]
 
-showTable : Attribute
-showTable =
+showListStyle : Attribute
+showListStyle =
   style
-    [ ("display", "TABLE-ROW")
+    [ ("display", "flex"),
+      ("flex-direction", "row")
     ]

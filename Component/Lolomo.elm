@@ -43,11 +43,15 @@ view address model =
       let
         rows = div [] (List.map (viewRow address) model.rows)
       in
-        div []
-          [
-            rows
-          ]
+        rows
 
 viewRow : Signal.Address Action -> (ID, LolomoRow.Model) -> Html
 viewRow address (id, model) =
   LolomoRow.view (Signal.forwardTo address (Modify id)) model
+
+lolomoStyle : Attribute
+lolomoStyle =
+  style
+    [ ("display", "flex"),
+      ("flex-direction", "column")
+    ]
